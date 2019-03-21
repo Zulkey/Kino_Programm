@@ -142,8 +142,8 @@ namespace Kino_Pruefungsvorbereitung
                         
                     break;                                                      //Ende des ersten "cases".
                 case 'S':                                                       //Sollte der eingegebene Wert "S" entsprechen, wird folgendes gemacht:
-                   
-                    StreamReader sr = new StreamReader(@"D:\test1.txt");        //Erstellen eines "StreamReaders", benötigt um aus einer Textdatei zu lesen.
+                    string dateiPfad = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Kino Ticket.csv");
+                    StreamReader sr = new StreamReader(dateiPfad);        //Erstellen eines "StreamReaders", benötigt um aus einer Textdatei zu lesen.
                     string fileOutput = sr.ReadToEnd();                         //es wird ein string erstellt, in welchem der alles aus der oben genannten Textdatei gespeichert wird.
                     MessageBox.Show(fileOutput);                                //Ausgeben des Strings. Verwenden von MessageBox. Dies öffnet ein Fenster welches die Nachricht anzeigt. 
 

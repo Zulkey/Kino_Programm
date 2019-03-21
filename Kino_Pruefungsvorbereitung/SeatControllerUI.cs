@@ -80,110 +80,110 @@ namespace Kino_Pruefungsvorbereitung
             this.Update();                                      //Update/Erneuern des ganzen.
         }
 
-        public void setPrintLocation()                          //
+        public void setPrintLocation()                          //Festlegen der Position des Knopfes der fürs Ausgeben verantwortlich ist.
         {
-            int x = this.Width;
-            int y = this.Height;
-            y -= 100;
-            x -= 125;
+            int x = this.Width;                                 //Die X-Koordinate wird gleichgesetzt mit  "Width"
+            int y = this.Height;                                //Die Y-Koordinate wird gleichgesetzt mit  "Height"
+            y -= 100;                                           //y wird -100 gerechnet
+            x -= 125;                                           //x wird -125 gerechnet
 
-            printButton.Location = new Point(x, y);
+            printButton.Location = new Point(x, y);                         //Die Position des Knopfes ist bei den Werten von y und x.
 
-            printButton.Click += new EventHandler(printButtonClickEvent);
+            printButton.Click += new EventHandler(printButtonClickEvent);   //Hier wird hinzugefügt, dass etwas passiert. Was genau passiert with in "protected void printButtonClickEvent(object sender, EventArgs e) gesagt.
             
         }
 
-        protected void printButtonClickEvent(object sender, EventArgs e)
+        protected void printButtonClickEvent(object sender, EventArgs e)    //Hier steht, was passiert wenn der "print" Knopf angeklickt wird.
         {
-            StreamWriter sw = new StreamWriter(@"D:\test1.txt");
+            string dateiPfad = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Kino Ticket.csv");
+            StreamWriter sw = new StreamWriter(dateiPfad);            //Erstellen einer Funktion, welche es dem Programm ermöglich, sachen in eine Textdatei zu schreiben.
 
 
             
 
-            // Man könnte den folgenden Part auch ohne Arrays machen, wird aber aus Lernzwecken mit Arrays gemacht.
+            //Man könnte den folgenden Part auch ohne Arrays machen, wird aber aus Lernzwecken mit Arrays gemacht.
 
-            int b = 0;
-            for(int i = 0; i < sitzplaetze.Count(); i++) {
+            int b = 0;                                                  //b, dies entspricht der Anzahl der ausgewählten Sitzplätze.
+            for(int i = 0; i < sitzplaetze.Count(); i++) {              //Jedes mal, wenn der print-knopf gedrückt wird, zählt die for-schleife durch.
 
-                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);
+                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);         //Dem Array "sitzplatz" wird der Wert eines Ausgewählten Sitzplatzes zugewiesen,
 
-                if (!sitzplatz.istVerfuegbar())
-                    b++;       
+                    if (!sitzplatz.istVerfuegbar())                     //Falls der Sitzplatz verfügbar ist.
+                    b++;                                                //b wird um "1" erhöht.
             }
 
             if(b == 0)
             {
-                MessageBox.Show("Du hast keine Plätze ausgewählt!"); // "Errormessage" wenn keine Sitzplätze ausgewählt wurden
+                MessageBox.Show("Du hast keine Plätze ausgewählt!"); // "Errormessage" wenn keine Sitzplätze ausgewählt wurden. "MessageBox" ist ein kleines Fenster, welches sich öffnet und dann die Nachricht anzeigt.
                 return;
             }
 
-            Sitzplatz[] sitzplatzArray = new Sitzplatz[b];
+            Sitzplatz[] sitzplatzArray = new Sitzplatz[b];          //Array in welchem die ausgewwöhlten Sitzplätze gespeichert werden um dann ausgegeben zu werden.
 
-            b = 0;
-            for(int i = 0; i< sitzplaetze.Count(); i++)
+            b = 0;                                                  
+            for(int i = 0; i< sitzplaetze.Count(); i++)             //for-Schleife zum speichern der Sitzplätze in einem Array.
             {
-                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);
-                if (!sitzplatz.istVerfuegbar())
+                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);     //Array bekommt den Wert von dem Wert "i" im Array "sitzplaetze". "ElementAt" besorgt einen Wert and der angegebenen "
+                if (!sitzplatz.istVerfuegbar())                     //Der Sitzplatz wird nur gespeichert, falls dieser "verfügbar" ist.         
                 {
 
-                    sitzplatzArray[b] = sitzplatz;
-                    b++;
+                    sitzplatzArray[b] = sitzplatz;                  //Speichern des Wertes
+                    b++;                                            //Erhöhen des Wertes "b"
                 }
             }
 
 
             // Hier wird ein StringBuilder benutzt um die Plätze in einem String aufzulisten.
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();      //"StringBuilder" um den String zur Ausgabe des Sitzplatzes zu "bauen".
 
 
-            bool c = false;
+            bool c = false;                                         //Boolean "c", beteiligt am Prozess des Erstellens des Strings
 
-            foreach(Sitzplatz sitzplatz in sitzplatzArray)
+            foreach(Sitzplatz sitzplatz in sitzplatzArray)          //
             {
-                if(c == false) {
-                stringBuilder.Append(sitzplatz.getNumber());
-                c = true;
+                if(c == false) {                                    //falls "c" false ist wird:
+                stringBuilder.Append(sitzplatz.getNumber());        //Append für Zeichenfolge an String an. Hier wird nur die Nummer des Sitzplatzes in dem String gespeichert.
+                c = true;                                           //und "c" auf "true" gesetzt 
                 }
-                else
+                else                                                                //Falls "c" nicht auf "false" ist
                 {
-                    stringBuilder.Append(",").Append(" " + sitzplatz.getNumber());
+                    stringBuilder.Append(",").Append(" " + sitzplatz.getNumber());  //Wird zu dieser einen Sitznummer  ein Komma hinzugefügt außerdem werden ein "Leerzeichen" und die weitere Sitznummer hinzugefügt.
                 }
             }
 
-            Program.csvPlatz = stringBuilder.ToString();
+            Program.csvPlatz = stringBuilder.ToString();                            //der eben "gebaute" string wird in der Variable "csvPlatz" gespeichert.
 
-            string output=("Uhrzeit: "+ Program.csvUhrzeit);
-            string output1 = ("Saal: " + Program.csvSaal);
-            string output2 = ("Plätze: " + Program.csvPlatz);
-            string output3 = ("Kosten: " + price + " Euro.");
-            sw.WriteLine("Reservierung!");
-            sw.WriteLine(output);
-            sw.WriteLine("{0}.         {1}.",output1,output2);
-            sw.WriteLine(output3);
-            sw.Close();
+            string output=("Uhrzeit: "+ Program.csvUhrzeit);                        //Speichern der Uhrzeit in string
+            string output1 = ("Saal: " + Program.csvSaal);                          //Speichern des Saals in string
+            string output2 = ("Plätze: " + Program.csvPlatz);                       //Speichern des/der Sitzplätze in string
+            string output3 = ("Kosten: " + price + " Euro.");                       //Speichern des zu zahlenden Preises in der string
+            sw.WriteLine("Reservierung!");                                          //Speichern in Textdatei            
+            sw.WriteLine(output);                                                   //Variable "output" in Textdatei
+            sw.WriteLine("{0}.         {1}.",output1,output2);                      //Speichern der Variablen "output1" und "output2" in Textdatei
+            sw.WriteLine(output3);                                                  //speichern der Variable "output3" in Textdatei
+            sw.Close();                                                             //Beenden der StreamWriter-Methode.
 
 
         }
 
-        public void setPriceLocation()
+        public void setPriceLocation()                                                          //Position und "Layout" des Preis-Schriftzugs.
         {
-            int x = this.Width;
-            int y = this.Height;
-            y -= 100;
-            x -= (this.Width - 70);
+            int x = this.Width;                                                                 //gleichsetzen der Variable "x" mit "Width"
+            int y = this.Height;                                                                //gleichsetzen der Variable "y" mit "Height"
+            y -= 100;                                                                           //y wird "-100" gerechnet (Verschiebt den Text auf der y-Achse
+            x -= (this.Width - 16);                                                             //x wird -"Widh-70" gerechnet (Verschiebt den Text auf der x-Achse
 
           
-            premiumPriceLabel.Text = "Premium Preis: " + Sitzplatz.normalPrice + "€";
-            priceLabel.Text = "Preis: " + Sitzplatz.premiumPrice + "€";
-
-            costLabel.Size =new Size(100,40);
-            costLabel.Location = new Point(x, y);
-            costLabel.Name = "Preis";
-            costLabel.Font = new Font("Calibri", 20, FontStyle.Underline);
-            costLabel.Text = "Gesamtpreis: 0 €";
-            costLabel.Update();
-            this.Update();
+            premiumPriceLabel.Text = "Preis: " + Sitzplatz.normalPrice + "€";                           //Der Text des ersten "Labels" wird auf "Preis" gesetzt, dahinter wird der Preis eingefügt.
+            priceLabel.Text = "Premium  Preis: " + Sitzplatz.premiumPrice + "€";                        //Der Text des zweite "Label" wird auf "Premium Preis" gesetzt, dies sind die ersten 5 Reihen.
+                                                        
+            costLabel.Location = new Point(x, y);                                                       //Position des Labels für den Gesamtpreis.
+            costLabel.Name = "Preis";                                                                   //"Name" des Labels
+            costLabel.Font = new Font("Calibri", 20, FontStyle.Underline);                              //"Aussehen" des Textes
+            costLabel.Text = "Gesamtpreis: 0 €";                                                        //"Inhalt"/"Text" des Labeles.
+            costLabel.Update();                                                                         //Aktualisieren
+            this.Update();                                                                              //Aktualisieren v2
         }
 
         public void changePriceLabel()
@@ -242,7 +242,7 @@ namespace Kino_Pruefungsvorbereitung
                     x += 45;
                 }
             }
-            Console.WriteLine("Added seats!");
+            Console.WriteLine("Alle Sitze hinzugefügt!");
             this.Update();
         }
 
@@ -253,7 +253,7 @@ namespace Kino_Pruefungsvorbereitung
 
             Button button = sender as Button;
             
-            Console.WriteLine("Button clicked -> " + button.Text);
+            Console.WriteLine("Sitz ausgewählt: " + button.Text);
 
             Sitzplatz seat = sitzplaetze.ElementAt((int.Parse(button.Text) - 1));
            
@@ -317,5 +317,11 @@ namespace Kino_Pruefungsvorbereitung
             return size;
         }
 
+
+        /*private void button1_Click(object sender, EventArgs e)
+        {
+            
+            Application.Exit();
+        }*/
     }
 }

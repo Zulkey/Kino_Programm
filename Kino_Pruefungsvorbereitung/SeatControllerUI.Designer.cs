@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SeatControllerUI));
             this.priceLabel = new System.Windows.Forms.Label();
             this.premiumPriceLabel = new System.Windows.Forms.Label();
             this.costLabel = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             // priceLabel
             // 
             this.priceLabel.AutoSize = true;
+            this.priceLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(60)))));
             this.priceLabel.Location = new System.Drawing.Point(12, 9);
             this.priceLabel.Name = "priceLabel";
             this.priceLabel.Size = new System.Drawing.Size(35, 13);
@@ -46,6 +48,7 @@
             // premiumPriceLabel
             // 
             this.premiumPriceLabel.AutoSize = true;
+            this.premiumPriceLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(60)))));
             this.premiumPriceLabel.Location = new System.Drawing.Point(12, 25);
             this.premiumPriceLabel.Name = "premiumPriceLabel";
             this.premiumPriceLabel.Size = new System.Drawing.Size(35, 13);
@@ -63,7 +66,7 @@
             // 
             // printButton
             // 
-            this.printButton.Location = new System.Drawing.Point(253, 141);
+            this.printButton.Location = new System.Drawing.Point(253, 142);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(75, 23);
             this.printButton.TabIndex = 3;
@@ -74,12 +77,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(40)))));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.printButton);
             this.Controls.Add(this.costLabel);
             this.Controls.Add(this.premiumPriceLabel);
             this.Controls.Add(this.priceLabel);
+            this.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SeatControllerUI";
             this.Text = "SeatControllerUI";
             this.ResumeLayout(false);
