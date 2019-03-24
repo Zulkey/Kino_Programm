@@ -27,6 +27,29 @@ namespace Kino_Pruefungsvorbereitung
 
         public SeatControllerUI(int[] angaben, String uhrzeit) //Inhalt des Fensters. (Sitze, Preis etc)
 
+            //Verarbeitung
+
+
+
+        /*Ich zähle dies einfach mal alles als Verarbeitung.
+         * 
+         * 
+         *Im folgenden Code wird ein Windows-Forms Fenster erstellt.
+         * In diesem Fenster Werden die Sitze des Saals dargestellt.
+         * Durch das Anklicken eines Sitzes wird dieser ausgewählt, 
+         * der Preis wird zusammengerechnet. 
+         * Durch Anklicken eines "print-buttons" Werden Uhrzeit, Platz, Saal und Preis in einem Textdokument gespeichert.
+         * Die Variablen heißen "csvUhrzeit" etc, da ich erst geplant habe alles in einer CSV-Datei zu speichern,
+         * allerdings wurde die Zeit etwas knapp.
+         * Der untenstehende Code ist bei weitem nicht perfekt und kann Sicherlich auch noch gekürtzt werden, mache ich aber nicht, 
+         * oder, falls doch, dann wenn alles andere fertig ist.
+         * 
+         * Es ist durchaus möglich, dass der folgende Code Rechtschreibfehler enthält, diese können, 
+         * falls sie entdeckt werden, für sich behalten werden.*/
+          
+
+
+
         {
 
             //Initialisierung, Deklaration und Instanzbildung
@@ -95,8 +118,8 @@ namespace Kino_Pruefungsvorbereitung
 
         protected void printButtonClickEvent(object sender, EventArgs e)    //Hier steht, was passiert wenn der "print" Knopf angeklickt wird.
         {
-            string dateiPfad = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Kino Ticket.csv");
-            StreamWriter sw = new StreamWriter(dateiPfad);            //Erstellen einer Funktion, welche es dem Programm ermöglich, sachen in eine Textdatei zu schreiben.
+            string dateiPfad = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Kino Ticket.csv");    //Ermittelt den Pfad des Desktops.     
+            StreamWriter sw = new StreamWriter(dateiPfad);                                                                              //Erstellen einer Funktion, welche es dem Programm ermöglich, sachen in eine Textdatei zu schreiben.
 
 
             
@@ -136,7 +159,7 @@ namespace Kino_Pruefungsvorbereitung
             // Hier wird ein StringBuilder benutzt um die Plätze in einem String aufzulisten.
 
             StringBuilder stringBuilder = new StringBuilder();      //"StringBuilder" um den String zur Ausgabe des Sitzplatzes zu "bauen".
-
+            StringBuilder stringBuilder1 = new StringBuilder();
 
             bool c = false;                                         //Boolean "c", beteiligt am Prozess des Erstellens des Strings
 
@@ -158,15 +181,24 @@ namespace Kino_Pruefungsvorbereitung
             string output1 = ("Saal: " + Program.csvSaal);                          //Speichern des Saals in string
             string output2 = ("Plätze: " + Program.csvPlatz);                       //Speichern des/der Sitzplätze in string
             string output3 = ("Kosten: " + price + " Euro.");                       //Speichern des zu zahlenden Preises in der string
-            sw.WriteLine("Reservierung!");                                          //Speichern in Textdatei            
-            sw.WriteLine(output);                                                   //Variable "output" in Textdatei
-            sw.WriteLine("{0}.         {1}.",output1,output2);                      //Speichern der Variablen "output1" und "output2" in Textdatei
-            sw.WriteLine(output3);                                                  //speichern der Variable "output3" in Textdatei
-            sw.Close();                                                             //Beenden der StreamWriter-Methode.
 
 
+
+            stringBuilder1.AppendLine("     -  Reservierung  -      ").AppendLine(output).AppendLine(output1).AppendLine(output2).AppendLine(output3);                          //Alle Strings die ausgegeben werden sollen, werden in einem string gespeichert                                             
+            string stringAusgabe = stringBuilder1.ToString();                                                                                                                    //gebauten string in string speichern
+
+
+
+
+
+            //Ausgabe
+
+
+            sw.WriteLine(stringAusgabe);                                                                                                                                         //Schreiben des strings in Textdatei.
+            sw.Close();                                                                                                                                                          //Beenden der StreamWriter-Methode.
         }
 
+        //Verarbeitung
         public void setPriceLocation()                                                          //Position und "Layout" des Preis-Schriftzugs.
         {
             int x = this.Width;                                                                 //gleichsetzen der Variable "x" mit "Width"
@@ -180,17 +212,17 @@ namespace Kino_Pruefungsvorbereitung
                                                         
             costLabel.Location = new Point(x, y);                                                       //Position des Labels für den Gesamtpreis.
             costLabel.Name = "Preis";                                                                   //"Name" des Labels
-            costLabel.Font = new Font("Calibri", 20, FontStyle.Underline);                              //"Aussehen" des Textes
+            costLabel.Font = new Font("Arial", 20, FontStyle.Underline);                                //"Aussehen" des Textes
             costLabel.Text = "Gesamtpreis: 0 €";                                                        //"Inhalt"/"Text" des Labeles.
-            costLabel.Update();                                                                         //Aktualisieren
-            this.Update();                                                                              //Aktualisieren v2
+            costLabel.Update();                                                                         //Nur Label updaten
+            this.Update();                                                                              //Ganze Windows-Form updaten.
         }
 
         public void changePriceLabel()
         { 
-            costLabel.Text = "Gesamtpreis: " + price + " €";
-            costLabel.Update();
-            this.Update();
+            costLabel.Text = "Gesamtpreis: " + price + " €";                                            //"Inhalt" des Labels, falls dieser verändert wird.
+            costLabel.Update();                                                                         //Nur Label updaten.
+            this.Update();                                                                              //Ganze Windows-Form updaten.
         }
 
         public void addSitzplaetze()
@@ -205,48 +237,48 @@ namespace Kino_Pruefungsvorbereitung
 
 
 
-            for (int i = 0; i < sitzplaetze.Count; i++)
+            for (int i = 0; i < sitzplaetze.Count; i++)                                                                                                  // Schleife durch komplette Liste
             {
-                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);
+                Sitzplatz sitzplatz = sitzplaetze.ElementAt(i);                                                                                          // Hier bekommen wir den Sitzplatz der in der Liste auf der Position von "i" ist                                         
 
 
-                int number = i + 1;
+                int number = i + 1;                                                                                                                      //Erhöht "i" um 1
 
 
-                Button button = new Button();   // erstellen des "Knopfes"
-                button.Width = 35;              // Größes des Knopfes
-                button.Height = 35;             // ^
-                this.Controls.Add(button);      // Knopf zur Form hinzufügen
-                button.Text = number + "";      // Text des Buttons ändern.
-                button.Location = new Point(x, y); // Button auf die richtige Position in der Form setzten.
+                Button button = new Button();                                                                                                            // erstellen des "Knopfes"
+                button.Width = 35;                                                                                                                       // Größes des Knopfes
+                button.Height = 35;                                                                                                                      // ^
+                this.Controls.Add(button);                                                                                                               // Knopf zur Form hinzufügen
+                button.Text = number + "";                                                                                                               // Text des Buttons ändern.
+                button.Location = new Point(x, y);                                                                                                       // Button auf die richtige Position in der Form setzten.
 
-                button.Click += new EventHandler(seatButtonClickEvent); // Event hinzufügen das beim Klicken auf dem Button ausgeführt wird.
-                button.BackColor = sitzplatz.istVerfuegbar() ? (sitzplatz.istPremium() ? Color.DarkGreen : Color.Green) : Color.Red; // Button farbe
-                button.Show(); // anzeigen des buttons
+                button.Click += new EventHandler(seatButtonClickEvent);                                                                                  // Event hinzufügen das beim Klicken auf dem Button ausgeführt wird.
+                button.BackColor = sitzplatz.istVerfuegbar() ? (sitzplatz.istPremium() ? Color.DarkGreen : Color.Green) : Color.Red;                     // Button farbe
+                button.Show();                                                                                                                           // anzeigen des buttons
 
-                buttonsInRow++; 
+                buttonsInRow++;                                                                                                                          //"buttonsInRow" um 1 erhöhen
 
 
-                if (angaben[1] / 2 == buttonsInRow)
-                {
-                    x += 95;
+                if (angaben[1] / 2 == buttonsInRow)                                                                                                     //Erstellen des Ganges in der Mittel
+                {                                                                                                                               
+                    x += 95;                                                                                                                            //Breite des Ganges
                 }
-                else if (angaben[1] == buttonsInRow)
+                else if (angaben[1] == buttonsInRow)                                                                                                    //Neue Reihe dies das
                 {
-                    x = 20;
-                    y += 45;
-                    buttonsInRow = 0;
+                    x = 20;                                                                                                                             //Startposition x 
+                    y += 45;                                                                                                                            //Startposition y 
+                    buttonsInRow = 0;                                                                                                                   //Anzahl der Knöpfe pro Reihe auf 0 setzen            
                 }
-                else
+                else                                                                                                                                    //Falls keins der Dinge oben zutrifft
                 {
-                    x += 45;
+                    x += 45;                                                                                                                            //Verändern der x-koordinate um 45
                 }
             }
-            Console.WriteLine("Alle Sitze hinzugefügt!");
-            this.Update();
+            Console.WriteLine("Alle Sitze hinzugefügt!");                                                                                               //Nachricht das Alle Sitze hinzugefügt/generiert worden    
+            this.Update();                                                                                                                              //Windows-Form Klasse updaten                                    
         }
 
-        protected void seatButtonClickEvent(object sender, EventArgs e)
+        protected void seatButtonClickEvent(object sender, EventArgs e)                                                                                 //Was passiert wenn ein Sitz angeklickt wird.
         {
             //Instanzbildung
             int[] sitzNummer = new int[sitzplaetze.Count];
@@ -257,71 +289,53 @@ namespace Kino_Pruefungsvorbereitung
 
             Sitzplatz seat = sitzplaetze.ElementAt((int.Parse(button.Text) - 1));
            
-       
             
-                
-            
-           
             seat.setVerfuegbar(!seat.istVerfuegbar());
-            button.BackColor = seat.istVerfuegbar() ? (seat.istPremium() ? Color.DarkGreen : Color.Green) : Color.DimGray; // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten
+            button.BackColor = seat.istVerfuegbar() ? (seat.istPremium() ? Color.DarkGreen : Color.Green) : Color.DimGray;                              // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten
 
 
-            if (!seat.istVerfuegbar()) // Ausrufezeichen ist if(boolean == false) ohne Ausrufenzeichen wäre es if(boolean == true)
+            if (!seat.istVerfuegbar())                                                                                                                  // Ausrufezeichen ist if(boolean == false) ohne Ausrufenzeichen wäre es if(boolean == true)
             { 
 
-                price += seat.istPremium() ? Sitzplatz.premiumPrice : Sitzplatz.normalPrice; // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten - Wenn der Sitz kein "Premiumsitzt" ist wird der normale Preis gezahlt, wenn doch wird der Premium Preis bezahlt
+                price += seat.istPremium() ? Sitzplatz.premiumPrice : Sitzplatz.normalPrice;                                                            // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten - Wenn der Sitz kein "Premiumsitzt" ist wird der normale Preis gezahlt, wenn doch wird der Premium Preis bezahlt
 
             }
             else
             {
-                price -= seat.istPremium() ? Sitzplatz.premiumPrice : Sitzplatz.normalPrice; // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten
+                price -= seat.istPremium() ? Sitzplatz.premiumPrice : Sitzplatz.normalPrice;                                                            // IF else in einer Zeile. man könnte auch if(abfrage){ dann }else{sonst} benutzten
             }
 
-            if(price < 0)
-            {
-             //   price = 0;
-            }
-            changePriceLabel();
+            changePriceLabel();                                                                                                                         //Siehe Zeile 193.
 
-            // set price
-
-            this.Update();
+            this.Update();                                                                                                                              //Windows Form updaten
 
         }
 
-        private int[] calculateFormSize()
+        private int[] calculateFormSize()                                                                                                               //Berechnen der Gesamtgröße des Fensters etc
         {
-            int[] size = new int[2];
+            int[] size = new int[2];                                                                                                                    //Array der Länge 2
 
 
-            int seatWidt = 35; //   seat widt
-            int seatGap = 10;  // seat gap
-            int seatHeight = 35; // seat height
+            int seatWidt = 35;                                                                                                                          //Breite eines Sitzes                                    
+            int seatGap = 10;                                                                                                                           //Distanz zwischen zwei Sitzen
+            int seatHeight = 35;                                                                                                                        //Höhe eines Sitzes
 
-
-
-            // Form size
-            // we´re starting with the widt
-
-            int corridorWidt = 50; // size of the corridor widt between the seats
-
-
-            int widt = 40 /* size @ edges */ + (seatWidt * angaben[1]) + (seatGap * angaben[1]) + corridorWidt + 20;
-            int height = 100 /* size @ edges */ + (seatHeight * angaben[0]) + (seatGap * angaben[0]) + 90;
-
-            Console.WriteLine("widt: " + widt);
-            Console.WriteLine("height: " + height);
-
-            size[0] = widt;
-            size[1] = height;
-            return size;
-        }
-
-
-        /*private void button1_Click(object sender, EventArgs e)
-        {
+            //Fenstergröße
             
-            Application.Exit();
-        }*/
-    }
-}
+            int corridorWidt = 50;                                                                                                                      //Platz zwischen Sitzen 
+
+
+            int widt = 40 /* Abstand vom Rand (rechts und link)*/ + (seatWidt * angaben[1]) + (seatGap * angaben[1]) + corridorWidt + 20;                                    //Berechnen der Breite des ganzen Fensters
+            int height = 100 /* Abstand vom Rand (oben und unten) */ + (seatHeight * angaben[0]) + (seatGap * angaben[0]) + 90;                                              //Berechnen der Höhe des Fensters
+
+            Console.WriteLine("widt: " + widt);                                                                                                         //Ausgabe Breite
+            Console.WriteLine("height: " + height);                                                                                                     //Ausgabe Höhe
+
+            size[0] = widt;                                                                                                                             //Breite in Array Speichern.
+            size[1] = height;                                                                                                                           //Höhe in Array Speichern.
+            return size;                                                                                                                                //Rückgabe beider Werte
+        }
+
+    }//class
+    
+}//namespace

@@ -51,6 +51,7 @@ namespace Kino_Pruefungsvorbereitung
             Console.Write("Wollen Sie einen Reservierung vornehmen, dann drücken Sie 'R'. \nWollen Sie eine bereits vorgenommene Reservierung ansehen? Dann drücken Sie 'S'."); //Nachricht für Auswahl, ob der Anwender seine Reservierung ansehen möchte, oder eine solche vornehmen möchte.
             switchcase = Convert.ToChar(Console.ReadLine());    //Die Eingabe wird gespeichert.
 
+            //Verarbeitung
             Console.WriteLine();                                //Absatz
             switchcase = Char.ToUpper(switchcase);              //Sollte die Eingabe einen kleinen Buchstaben enthalten, wird dieser hier zu einem Großbuchstaben.
             switch (switchcase)                                 //Überprüfen des Wertes der Variable "switchcase".      
@@ -86,11 +87,13 @@ namespace Kino_Pruefungsvorbereitung
                         }
                         Console.WriteLine();                                                                                          //Absatz
 
-                        kinoSaaleingabe:                                                                                              //Stichwort für goto. Tritt ein wenn der Saal ungünstig.s
-                        //Hier beginnt die Eingabe zur Asuswahl desK inosaals:
+                        kinoSaaleingabe:                                                                                              //Stichwort für goto. Tritt ein wenn der Saal ungünstig.
+
+                        //Hier beginnt die Eingabe zur Auswahl des Kinosaals:
                         Console.Write("In welchen Kinosal wollen Sie gehen? ");                             //Nachricht zur Auswahl des Saals
                         eingabeSaal = Convert.ToInt32(Console.ReadLine());                                  //Speichern der Eingabe
 
+                        //Verarbeitung
                         if(eingabeSaal>anzahlSaele)                                                         //Es wird überprüft, ob die Eingabe in dem möglichen Bereich liegt(kleiner/gleich 5 und größer/gleich 1)
                         {
                             Console.WriteLine("Fehler! Der Saal existiert nicht.");
@@ -141,6 +144,7 @@ namespace Kino_Pruefungsvorbereitung
                     }
                         
                     break;                                                      //Ende des ersten "cases".
+
                 case 'S':                                                       //Sollte der eingegebene Wert "S" entsprechen, wird folgendes gemacht:
                     string dateiPfad = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Kino Ticket.csv");
                     StreamReader sr = new StreamReader(dateiPfad);        //Erstellen eines "StreamReaders", benötigt um aus einer Textdatei zu lesen.
