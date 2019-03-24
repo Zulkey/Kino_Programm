@@ -137,7 +137,7 @@ namespace Kino_Pruefungsvorbereitung
                                     break;
                             }
                             Application.EnableVisualStyles();                                               //Benötigt zum verwenden von Windows-Forms-Schlüsselwörtern.
-                            Application.Run(seatControllerUI);                                              //Verwenden der Klasse "seatControllerUI".
+                            Application.Run(seatControllerUI);                                              //Verwenden der Klasse "seatControllerUI"
                             
                         }
 
